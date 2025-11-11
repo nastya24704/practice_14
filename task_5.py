@@ -3,3 +3,6 @@ def main() -> None:
   numbers = [int(num) for num in elements.split()]
   average = sum(numbers) / len(numbers)
   print(average)
+
+if __name__ == "__main__":
+    main()
