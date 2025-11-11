@@ -10,3 +10,6 @@ def main() -> None:
         result.append(final_word)
     return result
     
+if __name__ == "__main__":
+    res = main()
+    print(res)
