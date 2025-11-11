@@ -8,8 +8,7 @@ def main() -> None:
     for word in words:
         final_word = word.strip(punctuation_marks)
         result.append(final_word)
-    return result
+    print(result)
     
 if __name__ == "__main__":
-    res = main()
-    print(res)
+    main()
