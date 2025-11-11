@@ -1,69 +1,82 @@
-from typing import List, Tuple
-
-
-def parse_int_list(input_line: str) -> List[int]:
+def get_list() -> list:
     """
-    Converts a space-separated string of integers into a list of integers.
-
-    Args:
-        input_line (str): The input string containing integers separated by spaces.
+    Get a list of integers from user input.
 
     Returns:
-        List[int]: The list of integers parsed from the string.
+        list: A list of integers entered by the user
     """
-    return list(map(int, input_line.strip().split()))
+    while True:
+        user_input = input("Enter the numbers for the list separated by spaces: ")
+        try:
+            numbers_list = list(map(int, user_input.split()))
+            return numbers_list
+        except ValueError:
+            print("Input error.")
 
 
-def process_lists(
-    lst1: List[int],
-    lst2: List[int],
-    start_idx: int,
-    end_idx: int
-) -> Tuple[List[int], List[int]]:
+def get_range() -> tuple:
     """
-    Moves a segment of lst1 (from start_idx to end_idx inclusive) in reverse order
-    to lst2, and removes those elements from lst1.
-
-    Args:
-        lst1 (List[int]): The first list.
-        lst2 (List[int]): The second list.
-        start_idx (int): Starting index of the segment (0-based).
-        end_idx (int): Ending index of the segment (0-based).
+    Get a range of two integers from user input.
 
     Returns:
-        Tuple[List[int], List[int]]: The updated lists after processing.
+        tuple: A tuple containing (range_min, range_max)
     """
-    # Extract the segment
-    segment = lst1[start_idx:end_idx + 1]
-    # Remove the segment from lst1
-    del lst1[start_idx:end_idx + 1]
-    # Reverse the segment and extend lst2
-    lst2.extend(segment[::-1])
-    return lst1, lst2
+    while True:
+        user_input = input("Enter two numbers - space separated range: ")
+        numbers = user_input.split()
+        if len(numbers) != 2:
+            print("Please enter exactly two numbers.")
+            continue
+        try:
+            range_min, range_max = map(int, numbers)
+            return range_min, range_max
+        except ValueError:
+            print("Input error.")
+
+
+def operation(list_1: list, list_2: list, range_min: int, range_max: int) -> tuple:
+    """
+    Transfer elements from list_1 to list_2 within specified range.
+
+    Args:
+        list_1 (list): Source list to remove elements from
+        list_2 (list): Target list to add elements to
+        range_min (int): Start index of the range (inclusive, 1-based indexing)
+        range_max (int): End index of the range (inclusive, 1-based indexing)
+
+    Returns:
+        tuple: A tuple containing (modified_list_1, modified_list_2)
+
+    """
+    carry_digit = []
+
+    for num in range(range_min - 1, range_max + 1):
+        carry_digit.append(list_1[num])
+
+    for el in carry_digit:
+        list_1.remove(el)
+
+    list_2.extend(carry_digit[::-1])
+    return list_1, list_2
 
 
 def main() -> None:
     """
-    Reads two input lines for lists of integers and two integers for range indices.
-    Processes the lists as per the task description, then outputs both lists.
+    Main function to coordinate the element transfer process.
+
+    Returns:
+        None
     """
-    # Read input lists
-    list1_input = input("Enter first list of integers: ")
-    list2_input = input("Enter second list of integers: ")
+    list_1 = get_list()
+    list_2 = get_list()
 
-    lst1 = parse_int_list(list1_input)
-    lst2 = parse_int_list(list2_input)
+    range_min, range_max = get_range()
 
-    # Read start and end indices (assuming user enters valid integers)
-    start_idx = int(input("Enter start index (0-based): "))
-    end_idx = int(input("Enter end index (0-based): "))
+    modified_list_1, modified_list_2 = operation(
+        list_1, list_2, range_min, range_max)
 
-    # Process lists
-    lst1, lst2 = process_lists(lst1, lst2, start_idx, end_idx)
-
-    # Output the results
-    print("First list after processing:", lst1)
-    print("Second list after processing:", lst2)
+    print("First list:", modified_list_1)
+    print("Second list:", modified_list_2)
 
 
 if __name__ == "__main__":
