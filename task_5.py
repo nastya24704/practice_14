@@ -5,5 +5,4 @@ def main() -> None:
   print(average)
 
 if __name__ == "__main__":
-    avg = main()
-    print(avg)
+    main()
